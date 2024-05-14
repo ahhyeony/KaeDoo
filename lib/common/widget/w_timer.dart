@@ -121,7 +121,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                 ),
-                child: Text('Restart'),
+                child: Text('Reset'),
               ),
               SizedBox(width: 10),
               ElevatedButton(
