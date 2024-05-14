@@ -1,23 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:kaedoo/common/widget/w_timer.dart';  // TimerWidget을 포함한 파일의 경로가 정확해야 합니다.
+import 'package:kaedoo/common/data/Data Transfer Object/dto_timestorage.dart';
+import 'package:kaedoo/common/widget/w_timerecord.dart';
 
-class TimerFragment extends StatelessWidget {
+class TimerFragment extends StatefulWidget {
   final bool showBackButton;
 
-  const TimerFragment({
-    Key? key,
-    this.showBackButton = true,
-  }) : super(key: key);
+  TimerFragment({Key? key, this.showBackButton = true}) : super(key: key);
+
+  @override
+  _TimerFragmentState createState() => _TimerFragmentState();
+}
+
+class _TimerFragmentState extends State<TimerFragment> {
+  final TimeStorage timeStorage = TimeStorage();
+
+  void _updateRecords() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: showBackButton ? AppBar(
+      appBar: AppBar(
         title: Text('Timer'),
-        leading: BackButton(),
-      ) : null,
-      body: Center(
-        child: TimerWidget(),
+        leading: widget.showBackButton
+            ? IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        )
+            : null,
+      ),
+      body: Container(
+        color: Color(0xFFF0F0F0),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 20.0),
+              child: TimerWidget(
+                timeStorage: timeStorage,
+                onRecord: _updateRecords,
+              ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 10.0,
+                      spreadRadius: 5.0,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TimeRecordWidget(timeStorage: timeStorage),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

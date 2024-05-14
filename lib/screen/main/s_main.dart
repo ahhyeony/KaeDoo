@@ -1,8 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:kaedoo/screen/main/tab/tab_item.dart';
 import 'package:kaedoo/screen/main/tab/tab_navigator.dart';
-import 'package:flutter/material.dart';
-
-import '../../common/common.dart';
+import 'package:kaedoo/common/common.dart';
 import 'w_menu_drawer.dart';
 
 class MainScreen extends StatefulWidget {
@@ -14,7 +13,6 @@ class MainScreen extends StatefulWidget {
 
 class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin {
   TabItem _currentTab = TabItem.home;
-  // 탭 목록을 홈, 타이머, 캘린더로 업데이트
   final tabs = [TabItem.home, TabItem.timer, TabItem.calendar];
   final List<GlobalKey<NavigatorState>> navigatorKeys = [];
 
@@ -34,22 +32,18 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: isRootPage,
-      onPopInvoked: _handleBackPressed,
-      child: Scaffold(
-        extendBody: extendBody,
-        drawer: const MenuDrawer(),
-        body: Container(
-          color: context.appColors.seedColor.getMaterialColorValues[200],
-          padding: EdgeInsets.only(bottom: extendBody ? 60 - bottomNavigationBarBorderRadius : 0),
-          child: SafeArea(
-            bottom: !extendBody,
-            child: pages,
-          ),
+    return Scaffold(
+      extendBody: extendBody,
+      drawer: const MenuDrawer(),
+      body: Container(
+        color: context.appColors.seedColor.getMaterialColorValues[200],
+        padding: EdgeInsets.only(bottom: extendBody ? 60 - bottomNavigationBarBorderRadius : 0),
+        child: SafeArea(
+          bottom: !extendBody,
+          child: pages,
         ),
-        bottomNavigationBar: _buildBottomNavigationBar(context),
       ),
+      bottomNavigationBar: _buildBottomNavigationBar(context),
     );
   }
 
@@ -57,16 +51,18 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
       _currentTab == TabItem.home && _currentTabNavigationKey.currentState?.canPop() == false;
 
   IndexedStack get pages => IndexedStack(
-      index: _currentIndex,
-      children: tabs
-          .mapIndexed((tab, index) => Offstage(
+    index: _currentIndex,
+    children: tabs.map<Widget>((tab) {
+      final index = tabs.indexOf(tab);
+      return Offstage(
         offstage: _currentTab != tab,
         child: TabNavigator(
           navigatorKey: navigatorKeys[index],
           tabItem: tab,
         ),
-      ))
-          .toList());
+      );
+    }).toList(),
+  );
 
   void _handleBackPressed(bool didPop) {
     if (!didPop) {
@@ -108,14 +104,13 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
   }
 
   List<BottomNavigationBarItem> navigationBarItems(BuildContext context) {
-    return tabs
-        .mapIndexed(
-          (tab, index) => tab.toNavigationBarItem(
+    return tabs.map<BottomNavigationBarItem>((tab) {
+      final index = tabs.indexOf(tab);
+      return tab.toNavigationBarItem(
         context,
         isActivated: _currentIndex == index,
-      ),
-    )
-        .toList();
+      );
+    }).toList();
   }
 
   void _changeTab(int index) {
@@ -149,4 +144,3 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
     }
   }
 }
-
