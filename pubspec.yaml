@@ -31,6 +31,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  #calendar
+  table_calendar: ^3.0.0
+
+  #pie_chart
+  pie_chart: ^5.4.0
+
   #splash creator
   flutter_native_splash: ^2.3.0
 

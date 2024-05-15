@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:kaedoo/common/data/Data Transfer Object/dto_timestorage.dart';
 
 class TimerWidget extends StatefulWidget {
-  final TimeStorage timeStorage;
   final VoidCallback onRecord;
 
-  TimerWidget({Key? key, required this.timeStorage, required this.onRecord}) : super(key: key);
+  TimerWidget({Key? key, required this.onRecord}) : super(key: key);
 
   @override
   _TimerWidgetState createState() => _TimerWidgetState();
 }
 
 class _TimerWidgetState extends State<TimerWidget> {
+  final TimeStorage timeStorage = TimeStorage();
   String timeString = "00:00:00";
   bool isRunning = false;
-  bool isPaused = false; // 타이머가 중지된 상태를 관리
+  bool isPaused = false;
 
   void updateTime(Duration duration) {
     setState(() {
@@ -29,13 +29,13 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   void _startStopTimer() {
     if (!isRunning) {
-      widget.timeStorage.startTimer(updateTime);
+      timeStorage.startTimer(updateTime);
       setState(() {
         isRunning = true;
         isPaused = false;
       });
     } else {
-      widget.timeStorage.stopTimer();
+      timeStorage.stopTimer();
       setState(() {
         isRunning = false;
         isPaused = true;
@@ -44,7 +44,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   void _restartTimer() {
-    widget.timeStorage.resetTimer();
+    timeStorage.resetTimer();
     updateTime(Duration.zero);
     setState(() {
       isRunning = false;
@@ -72,7 +72,9 @@ class _TimerWidgetState extends State<TimerWidget> {
             ),
             TextButton(
               onPressed: () {
-                widget.timeStorage.recordTime(_nameController.text.trim().isEmpty ? "Unnamed Session" : _nameController.text.trim());
+                timeStorage.recordTime(
+                    _nameController.text.trim().isEmpty ? "Unnamed Session" : _nameController.text.trim());
+                print("Time recorded: ${timeStorage.getTimeLogs()}"); // 로그 추가
                 widget.onRecord();
                 Navigator.of(context).pop();
               },
@@ -103,8 +105,8 @@ class _TimerWidgetState extends State<TimerWidget> {
               ElevatedButton(
                 onPressed: _startStopTimer,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF3A6351), // 배경색
-                  foregroundColor: Colors.white, // 글자색
+                  backgroundColor: Color(0xFF3A6351),
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
@@ -115,20 +117,20 @@ class _TimerWidgetState extends State<TimerWidget> {
               ElevatedButton(
                 onPressed: _restartTimer,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF3A6351), // 배경색
-                  foregroundColor: Colors.white, // 글자색
+                  backgroundColor: Color(0xFF3A6351),
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                 ),
-                child: Text('Reset'),
+                child: Text('Restart'),
               ),
               SizedBox(width: 10),
               ElevatedButton(
                 onPressed: _recordTime,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF3A6351), // 배경색
-                  foregroundColor: Colors.white, // 글자색
+                  backgroundColor: Color(0xFF3A6351),
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),

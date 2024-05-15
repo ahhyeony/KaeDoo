@@ -40,38 +40,52 @@ class TimeRecordWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: timeStorage.getTimeLogs().length,
-      itemBuilder: (context, index) {
-        final record = timeStorage.getTimeLogs()[index];
-        return Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            '공부시간기록',
+            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
           ),
-          margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-          child: ListTile(
-            title: Text(record.name, style: TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text('${record.time} on ${record.date}', style: TextStyle(color: Color(0xFF3A6351))),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.edit, color: Color(0xFF3A6351)),
-                  onPressed: () => _editRecord(context, index),
+        ),
+        Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: timeStorage.getTimeLogs().length,
+            itemBuilder: (context, index) {
+              final record = timeStorage.getTimeLogs()[index];
+              return Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                IconButton(
-                  icon: Icon(Icons.delete, color: Color(0xFF3A6351)),
-                  onPressed: () {
-                    timeStorage.deleteRecord(index);
-                    (context as Element).markNeedsBuild(); // UI 업데이트
-                  },
+                margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                child: ListTile(
+                  title: Text(record.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                  subtitle: Text('${record.time} on ${record.date}', style: TextStyle(color: Color(0xFF3A6351))),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.edit, color: Color(0xFF3A6351)),
+                        onPressed: () => _editRecord(context, index),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.delete, color: Color(0xFF3A6351)),
+                        onPressed: () {
+                          timeStorage.deleteRecord(index);
+                          (context as Element).markNeedsBuild(); // UI 업데이트
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              );
+            },
           ),
-        );
-      },
+        ),
+      ],
     );
   }
 }

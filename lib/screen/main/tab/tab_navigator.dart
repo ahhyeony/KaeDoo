@@ -27,7 +27,7 @@ class TabNavigator extends StatelessWidget {
               case TabItem.timer:
                 return TimerFragment();
               case TabItem.calendar:
-                return FavoriteFragment1(isShowBackButton: false);
+                return CalendarFragment();
               default:
                 return HomeFragment();
             }

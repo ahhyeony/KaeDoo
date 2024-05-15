@@ -1,10 +1,21 @@
 import 'dart:async';
-import 'package:kaedoo/common/data/Data Transfer Object/dto_timerecord.dart';
+import 'package:kaedoo/common/data/Data Transfer Object/dto_timerecord.dart'; // TimeRecord 클래스를 올바르게 import
 
 class TimeStorage {
   Duration duration = Duration.zero;
   Timer? _timer;
   List<TimeRecord> timeLogs = [];
+
+  // 싱글톤 인스턴스
+  static final TimeStorage _instance = TimeStorage._internal();
+
+  // private 생성자
+  TimeStorage._internal();
+
+  // 인스턴스를 반환하는 팩토리 생성자
+  factory TimeStorage() {
+    return _instance;
+  }
 
   void startTimer(Function(Duration) tick) {
     if (_timer == null) {
@@ -30,6 +41,7 @@ class TimeStorage {
       String date = DateTime.now().toIso8601String().split('T')[0];
       String timeString = _formatDuration(duration);
       timeLogs.add(TimeRecord(name: name, time: timeString, date: date));
+      print("Record added: ${timeLogs.last}"); // 로그 추가
     }
   }
 

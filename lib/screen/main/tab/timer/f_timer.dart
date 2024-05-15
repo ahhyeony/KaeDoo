@@ -4,16 +4,14 @@ import 'package:kaedoo/common/data/Data Transfer Object/dto_timestorage.dart';
 import 'package:kaedoo/common/widget/w_timerecord.dart';
 
 class TimerFragment extends StatefulWidget {
-  final bool showBackButton;
-
-  TimerFragment({Key? key, this.showBackButton = true}) : super(key: key);
+  TimerFragment({Key? key}) : super(key: key);
 
   @override
   _TimerFragmentState createState() => _TimerFragmentState();
 }
 
 class _TimerFragmentState extends State<TimerFragment> {
-  final TimeStorage timeStorage = TimeStorage();
+  final TimeStorage timeStorage = TimeStorage(); // 싱글톤 인스턴스를 사용합니다.
 
   void _updateRecords() {
     setState(() {});
@@ -24,12 +22,6 @@ class _TimerFragmentState extends State<TimerFragment> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Timer'),
-        leading: widget.showBackButton
-            ? IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
-        )
-            : null,
       ),
       body: Container(
         color: Color(0xFFF0F0F0),
@@ -40,7 +32,6 @@ class _TimerFragmentState extends State<TimerFragment> {
             Container(
               margin: const EdgeInsets.only(bottom: 20.0),
               child: TimerWidget(
-                timeStorage: timeStorage,
                 onRecord: _updateRecords,
               ),
             ),
