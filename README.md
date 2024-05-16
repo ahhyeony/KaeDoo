@@ -37,7 +37,7 @@ w_timerdata.dart
 f_calendar.dart, f_timer.dart
 -디자인하려고 했는데 먼가 얽힘. 다시봐야할듯.
 
-##240516
+##240516 오전 11:47
 의존성 추가: percent_indicator: ^4.0.1 (퍼센트를 바로 나타내는 라이브러리)
 lint 끄기
 투두 : 작업 추가, 수정, 삭제, 진척도 구현 완료
