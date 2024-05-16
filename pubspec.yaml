@@ -34,6 +34,9 @@ dependencies:
   #calendar
   table_calendar: ^3.0.0
 
+  #camera
+  camera: ^0.10.0+4
+  
   #pie_chart
   pie_chart: ^5.4.0
 

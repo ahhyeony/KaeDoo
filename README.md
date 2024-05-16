@@ -44,6 +44,14 @@ lint 끄기
 ###240516 오후 17:37
 f_home.dart
 -todo위젯 박스 분리
++추가수정사항
+pubspec.yaml -카메라 패키지 추가
+Android (AndroidManifest.xml), iOS (Info.plist) -각 파일에 카메라 설정 추가
+dto_cameraimagedetection.dart -카메라위젯으로 이미지 검출(현: 10초마다 캡쳐 -> 30초마다 리셋)
+cameraimage.dart -검출한 이미지 저장공간
+w_camera -카메라 위젯
+f_camera -타이머 페이지에서 버튼으로 연결되는 카메라 페이지
+
 
 ###수정사항
 필요없는 위젯, 파일 제거

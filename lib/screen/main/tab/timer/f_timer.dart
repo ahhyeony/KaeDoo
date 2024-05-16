@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kaedoo/common/widget/w_timer.dart';  // TimerWidget을 포함한 파일의 경로가 정확해야 합니다.
 import 'package:kaedoo/common/data/Data Transfer Object/dto_timestorage.dart';
 import 'package:kaedoo/common/widget/w_timerecord.dart';
+import 'package:kaedoo/screen/main/tab/camera/f_camera.dart';
 
 class TimerFragment extends StatefulWidget {
   TimerFragment({Key? key}) : super(key: key);
@@ -17,14 +18,29 @@ class _TimerFragmentState extends State<TimerFragment> {
     setState(() {});
   }
 
+  void _navigateToCameraFragment() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CameraFragment()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: (true),
-        title: Text('Timer',
+        centerTitle: true,
+        title: Text(
+          'Timer',
           style: TextStyle(color: Colors.white, fontFamily: 'Jomhuria', fontSize: 50),
-        ),backgroundColor: Color(0xFF94B396),
+        ),
+        backgroundColor: Color(0xFF94B396),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.camera_alt),
+            onPressed: _navigateToCameraFragment,
+          ),
+        ],
       ),
       body: Container(
         color: Color(0xFFF0F0F0),

@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 class Task {
   String work;
   bool isComplete;
-
   Task(this.work, {this.isComplete = false});
 }
 
