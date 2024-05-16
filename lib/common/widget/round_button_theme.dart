@@ -9,7 +9,7 @@ enum RoundButtonTheme {
 
   const RoundButtonTheme(
     this.bgColor,
-    this.textColor,
+ this.textColor,
     this.borderColor, {
     this.backgroundColorProvider,
   }) : shadowColor = Colors.transparent;

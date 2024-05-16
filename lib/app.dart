@@ -2,7 +2,6 @@ import 'package:kaedoo/common/common.dart';
 import 'package:kaedoo/common/theme/custom_theme_app.dart';
 import 'package:kaedoo/screen/main/s_main.dart';
 import 'package:flutter/material.dart';
-
 import 'common/theme/custom_theme.dart';
 
 class App extends StatefulWidget {

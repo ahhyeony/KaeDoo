@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:kaedoo/common/data/Data Transfer Object/dto_timestorage.dart';
 
-class TimeRecordWidget extends StatelessWidget {
+class TimeRecordWidget extends StatefulWidget {
   final TimeStorage timeStorage;
 
   TimeRecordWidget({Key? key, required this.timeStorage}) : super(key: key);
 
+  @override
+  _TimeRecordWidgetState createState() => _TimeRecordWidgetState();
+}
+
+class _TimeRecordWidgetState extends State<TimeRecordWidget> {
   void _editRecord(BuildContext context, int index) {
-    final _nameController = TextEditingController(text: timeStorage.getTimeLogs()[index].name);
+    final _nameController = TextEditingController(text: widget.timeStorage.getTimeLogs()[index].name);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -26,8 +31,9 @@ class TimeRecordWidget extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                timeStorage.updateRecord(index, _nameController.text.trim().isEmpty ? "Unnamed Session" : _nameController.text.trim());
-                (context as Element).markNeedsBuild(); // UI 업데이트
+                setState(() {
+                  widget.timeStorage.updateRecord(index, _nameController.text.trim().isEmpty ? "Unnamed Session" : _nameController.text.trim());
+                });
                 Navigator.of(context).pop();
               },
               child: Text('Save'),
@@ -38,8 +44,15 @@ class TimeRecordWidget extends StatelessWidget {
     );
   }
 
+  void _deleteRecord(int index) {
+    setState(() {
+      widget.timeStorage.deleteRecord(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final timeLogs = widget.timeStorage.getTimeLogs();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -51,11 +64,14 @@ class TimeRecordWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: ListView.builder(
+          child: timeLogs.isEmpty
+              ? Center(
+          )
+              : ListView.builder(
             shrinkWrap: true,
-            itemCount: timeStorage.getTimeLogs().length,
+            itemCount: timeLogs.length,
             itemBuilder: (context, index) {
-              final record = timeStorage.getTimeLogs()[index];
+              final record = timeLogs[index];
               return Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
@@ -73,10 +89,7 @@ class TimeRecordWidget extends StatelessWidget {
                       ),
                       IconButton(
                         icon: Icon(Icons.delete, color: Color(0xFF3A6351)),
-                        onPressed: () {
-                          timeStorage.deleteRecord(index);
-                          (context as Element).markNeedsBuild(); // UI 업데이트
-                        },
+                        onPressed: () => _deleteRecord(index),
                       ),
                     ],
                   ),

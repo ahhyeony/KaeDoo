@@ -24,7 +24,7 @@ class _CalendarFragmentState extends State<CalendarFragment> {
       appBar: AppBar(
         title: Text(
           'Calendar',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontFamily: 'Jomhuria', fontSize: 50),
         ),
         backgroundColor: Color(0xFF94B396),
       ),

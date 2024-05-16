@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kaedoo/screen/main/tab/calendar/f_calendar.dart';
-import 'package:kaedoo/screen/main/tab/timer/f_timer.dart';
-import 'package:kaedoo/screen/main/tab/home/f_home.dart';
 import 'package:kaedoo/common/theme/color/timer_app_colors.dart';
 
 enum TabItem {

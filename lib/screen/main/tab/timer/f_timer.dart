@@ -21,7 +21,10 @@ class _TimerFragmentState extends State<TimerFragment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Timer'),
+        centerTitle: (true),
+        title: Text('Timer',
+          style: TextStyle(color: Colors.white, fontFamily: 'Jomhuria', fontSize: 50),
+        ),backgroundColor: Color(0xFF94B396),
       ),
       body: Container(
         color: Color(0xFFF0F0F0),

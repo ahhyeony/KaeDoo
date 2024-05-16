@@ -1,9 +1,14 @@
-import 'package:kaedoo/common/common.dart';
-import 'package:kaedoo/common/theme/custom_theme.dart';
-import 'package:kaedoo/common/widget/round_button_theme.dart';
-import 'package:kaedoo/common/widget/w_todo.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:intl/intl.dart';
+
+// Task 클래스 정의
+class Task {
+  String work;
+  bool isComplete;
+
+  Task(this.work, {this.isComplete = false});
+}
 
 class HomeFragment extends StatefulWidget {
   const HomeFragment({super.key});
@@ -25,120 +30,207 @@ class _HomeFragmentState extends State<HomeFragment> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color(0xff94B396),
-        title: Text(getToday(), style: TextStyle(fontFamily: 'Jomhuria', fontSize: 50, color: Colors.white)),
+        title: Text(
+          getToday(),
+          style: TextStyle(
+            fontFamily: 'Jomhuria',
+            fontSize: 50,
+            color: Colors.white,
+          ),
+        ),
         leading: IconButton(
           onPressed: () => openDrawer(context),
-          icon: const Icon(Icons.menu, color: Colors.white,),
+          icon: const Icon(
+            Icons.menu,
+            color: Colors.white,
+          ),
         ),
       ),
       body: SingleChildScrollView(
-        child: Center (
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 16.0),
           child: Column(
             children: [
-              // add 버튼
-              Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Flexible(flex: 1, child: TextField(controller: _textController,)),
-                      ElevatedButton(onPressed: () { // 할 일 추가
-                        if (_textController == "")
+              // Add task input field and button
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 10.0,
+                      spreadRadius: 5.0,
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: TextField(
+                        controller: _textController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter a task',
+                          contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xff94B396), width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_textController.text.isEmpty) {
                           return;
-                        else {
+                        } else {
                           isModifying
-                          ? setState( () {
+                              ? setState(() {
                             tasks[modifyingIndex].work = _textController.text;
                             tasks[modifyingIndex].isComplete = false;
                             _textController.clear();
                             modifyingIndex = 0;
                             isModifying = false;
                           })
-                          : setState(() {
+                              : setState(() {
                             var task = Task(_textController.text);
                             tasks.add(task);
                             _textController.clear();
                           });
                           updatePercent();
                         }
-                      }, child: isModifying? const Text("수정") : const Text("추가")),
-                    ],
-                  )
+                      },
+                      child: isModifying ? const Text("수정", style: TextStyle(color: Colors.white)) : const Text("추가", style: TextStyle(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                        backgroundColor: Color(0xff94B396),
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              SizedBox(height: 5),
               // 할 일 진행도를 나타내는 progress bar
               Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      LinearPercentIndicator(
-                        width: MediaQuery.of(context).size.width - 50,
-                        lineHeight: 14.0,
-                        percent: percent,
-                        backgroundColor: Colors.white38,
-                        progressColor: Color(0xff94B396),
-                      )
-                    ],
-                  )
-              ),
-              // 할 일 목록
-              for (var i = 0; i<tasks.length; i++)
-                Row(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(child: TextButton(
-                      style: TextButton.styleFrom(
-                        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.zero))
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          tasks[i].isComplete = !tasks[i].isComplete;
-                          updatePercent();
-                        });
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            tasks[i].isComplete
-                            ? const Icon(Icons.check_box_rounded)
-                            : const Icon(Icons.check_box_outline_blank_rounded)
-                            , Text(" "+tasks[i].work, style: Theme.of(context).textTheme.labelMedium)
-                          ],
-                        )
-                      )
-                    )
+                    LinearPercentIndicator(
+                      width: MediaQuery.of(context).size.width - 50,
+                      lineHeight: 14.0,
+                      percent: percent,
+                      backgroundColor: Color(0x50D3D3D3),
+                      progressColor: Color(0xff94B396),
                     ),
-                    TextButton(
-                        onPressed: isModifying ? null : () {
-                          setState(() {
-                            isModifying = true;
-                            _textController.text = tasks[i].work;
-                            modifyingIndex = i;
-                          });
-                          },
-                        child: const Text("수정")),
-                    TextButton(
-                        onPressed: () {
-                          setState(() {
-                            tasks.remove(tasks[i]);
-                            updatePercent();
-                          });
-                        },
-                        child: const Text("식제")),
                   ],
+                ),
+              ),
+              SizedBox(height: 5),
+              // 할 일 목록
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 10.0,
+                      spreadRadius: 5.0,
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(16.0),
+                height: MediaQuery.of(context).size.height * 0.6,  // 할 일 목록 공간을 더 크게 설정
+                child: tasks.isNotEmpty
+                    ? ListView.builder(
+                  itemCount: tasks.length,
+                  itemBuilder: (context, index) {
+                    final task = tasks[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.zero),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  task.isComplete = !task.isComplete;
+                                  updatePercent();
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  task.isComplete
+                                      ? const Icon(Icons.check_box_rounded)
+                                      : const Icon(Icons.check_box_outline_blank_rounded),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    task.work,
+                                    style: Theme.of(context).textTheme.labelMedium,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: isModifying
+                                ? null
+                                : () {
+                              setState(() {
+                                isModifying = true;
+                                _textController.text = task.work;
+                                modifyingIndex = index;
+                              });
+                            },
+                            child: const Text("수정"),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                tasks.removeAt(index);
+                                updatePercent();
+                              });
+                            },
+                            child: const Text("삭제"),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 )
+                    : Center(
+                  child: Text(
+                    'No tasks available',
+                    style: TextStyle(fontSize: 18.0, color: Colors.grey),
+                  ),
+                ),
+              ),
             ],
-          )
-        )
-      )
+          ),
+        ),
+      ),
     );
   }
 
-  String getToday(){
+  String getToday() {
     DateTime now = DateTime.now();
-    String strToday;
     DateFormat format = DateFormat('yy.MM.dd');
-    strToday = format.format(now);
-    return strToday;
+    return format.format(now);
   }
 
   void openDrawer(BuildContext context) {
@@ -146,14 +238,10 @@ class _HomeFragmentState extends State<HomeFragment> {
   }
 
   void updatePercent() {
-    if(tasks.isEmpty)
+    if (tasks.isEmpty) {
       percent = 0.0;
-    else {
-      var completeTaskCnt = 0;
-      for (var i = 0; i<tasks.length; i++){
-        if (tasks[i].isComplete)
-          completeTaskCnt += 1;
-      }
+    } else {
+      var completeTaskCnt = tasks.where((task) => task.isComplete).length;
       percent = completeTaskCnt / tasks.length;
     }
   }
