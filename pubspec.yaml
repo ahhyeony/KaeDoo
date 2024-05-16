@@ -98,6 +98,7 @@ dev_dependencies:
   mock_web_server: ^5.0.0-nullsafety.1
   flutter_oss_licenses: ^2.0.1
   test: ^1.22.0
+  percent_indicator: ^4.0.1
 
 
 
