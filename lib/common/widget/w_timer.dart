@@ -111,7 +111,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                 ),
-                child: Text(isRunning ? 'Stop' : (isPaused ? 'Reset' : 'Start')),
+                child: Text(isRunning ? 'Stop' : (isPaused ? 'Restart' : 'Start')),
               ),
               SizedBox(width: 10),
               ElevatedButton(
@@ -123,7 +123,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                 ),
-                child: Text('Restart'),
+                child: Text('Reset'),
               ),
               SizedBox(width: 10),
               ElevatedButton(

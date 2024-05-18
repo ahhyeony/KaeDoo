@@ -22,6 +22,7 @@ class _CalendarFragmentState extends State<CalendarFragment> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           'Calendar',
           style: TextStyle(color: Colors.white, fontFamily: 'Jomhuria', fontSize: 50),
