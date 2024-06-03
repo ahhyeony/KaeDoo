@@ -87,3 +87,6 @@ home -화면 날짜 조정 가능
 home화면에서 w_progress_bar ,w_task_list 위젯 추가로 기능 분리
 w_timer - Reset 버튼 삭제 및 Record 시 타이머 초기
 w_timerecord - 삭제 시 안내창 출력
+
+###240604 01:00
+w_timedata -통계데이터 그래프 수정

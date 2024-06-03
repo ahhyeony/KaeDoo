@@ -62,20 +62,19 @@ class TimeDataWidget extends StatelessWidget {
           ),
           SizedBox(height: 5.0),
           SizedBox(
-            height: 220.0, // 그래프를 포함한 전체 높이를 더 크게 설정
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10.0, bottom: 20.0), // 그래프 위아래에 패딩 추가
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
+            height: 280.0, // 그래프를 포함한 전체 높이를 더 크게 설정
+            child: Column(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0), // 그래프 위아래에 패딩 추가
                     child: dataMap.isEmpty
                         ? Opacity(
                       opacity: 0.3,
                       child: PieChart(
                         dataMap: {"No Data": 1},
                         chartType: ChartType.ring,
-                        chartRadius: MediaQuery.of(context).size.width / 3,
+                        chartRadius: MediaQuery.of(context).size.width / 2.5,
                         ringStrokeWidth: 32,
                         centerText: "No Data",
                         legendOptions: LegendOptions(
@@ -90,7 +89,7 @@ class TimeDataWidget extends StatelessWidget {
                         : PieChart(
                       dataMap: dataMap,
                       chartType: ChartType.ring,
-                      chartRadius: MediaQuery.of(context).size.width / 3,
+                      chartRadius: MediaQuery.of(context).size.width / 2.5,
                       ringStrokeWidth: 32,
                       centerText: "Study Time",
                       legendOptions: LegendOptions(
@@ -110,25 +109,18 @@ class TimeDataWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 20),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '총 일간 공부시간',
-                        style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        '${totalStudyTime.toStringAsFixed(2)} 분',
-                        style: TextStyle(fontSize: 16.0, color: Colors.black54),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 50),
-                ],
-              ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  '총 일간 공부시간',
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  '${totalStudyTime.toStringAsFixed(2)} 분',
+                  style: TextStyle(fontSize: 16.0, color: Colors.black54),
+                ),
+              ],
             ),
           ),
         ],
