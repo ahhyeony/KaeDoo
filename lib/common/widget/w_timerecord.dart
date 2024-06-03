@@ -45,9 +45,32 @@ class _TimeRecordWidgetState extends State<TimeRecordWidget> {
   }
 
   void _deleteRecord(int index) {
-    setState(() {
-      widget.timeStorage.deleteRecord(index);
-    });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Record'),
+          content: Text('삭제하면 복구할 수 없습니다'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  widget.timeStorage.deleteRecord(index);
+                });
+                Navigator.of(context).pop();
+              },
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

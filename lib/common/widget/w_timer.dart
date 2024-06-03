@@ -77,6 +77,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                 print("Time recorded: ${timeStorage.getTimeLogs()}"); // 로그 추가
                 widget.onRecord();
                 Navigator.of(context).pop();
+                _restartTimer(); // 자동으로 타이머 초기화
               },
               child: Text('Record'),
             ),
@@ -112,18 +113,6 @@ class _TimerWidgetState extends State<TimerWidget> {
                   ),
                 ),
                 child: Text(isRunning ? 'Stop' : (isPaused ? 'Restart' : 'Start')),
-              ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: _restartTimer,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF3A6351),
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                ),
-                child: Text('Reset'),
               ),
               SizedBox(width: 10),
               ElevatedButton(

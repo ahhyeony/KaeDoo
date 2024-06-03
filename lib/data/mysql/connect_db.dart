@@ -7,10 +7,10 @@ Future<MySQLConnection> dbConnector() async {
   // mySQL 설정 -- 연결 중
   final conn = await MySQLConnection.createConnection(
       //host: "localhost" , //android 10.0.2.2
-      host: '10.30.132.37',
+      host: '10.0.2.2',   //10.30.132.37
       port: 3306,
-      userName: 'ah',
-      password: '0227',
+      userName: 'root',      //ah
+      password: '12341234',      //0227
       databaseName: 'kaedoo'
   );
 
