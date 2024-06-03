@@ -71,3 +71,13 @@ reset-restrart 수정
 ###240526 04:27
 mySQL DB 연동
 로그인/로그아웃/회원가입 기능 구현
+
+###240603 16:36
+f_camera.dart, dto_cameraimagedetection.dart, w_face_detector.dart 수정
+Face detection 및 Eye detection 구현
+UI 내에서 감지된 얼굴 수와 양쪽 눈의 Open/Close 여부 확인 가능
+회원가입 UI 통일
+로그인, 회원가입 페이지의 커서 컬러 변경
+회원가입 페이지에서...
+1 계정 생성 눌러서 닫기 버튼을 눌렀을 때 로그인 화면으로 돌아가도록 구현
+2 아이디, 비밀번호, 비밀번호확인 중 하나라도 입력하지 않은 경우 재입력 알림이 뜨도록 구현

@@ -48,6 +48,7 @@ class _LoginState extends State<Login> {
                   child: SizedBox(
                     width: 300,
                     child: CupertinoTextField(
+                      cursorColor: Color(0xff94B396),
                       controller: userId,
                       placeholder: '아이디를 입력해주세요',
                       textAlign: TextAlign.center,
@@ -60,6 +61,7 @@ class _LoginState extends State<Login> {
                   child: SizedBox(
                     width: 300,
                     child: CupertinoTextField(
+                      cursorColor: Color(0xff94B396),
                       controller: password,
                       placeholder: '비밀번호를 입력해주세요',
                       textAlign: TextAlign.center,
@@ -140,7 +142,7 @@ class _LoginState extends State<Login> {
                                 content: Text('아이디 또는 비밀번호가 올바르지 않습니다.'),
                                 actions: [
                                   TextButton(
-                                    child: Text('닫기'),
+                                    child: Text("닫기", style: TextStyle(color: Color(0xff94B396))),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaedoo/data/mysql/loginDB.dart';
+import 'login.dart';
 
 class MemberRegister extends StatefulWidget {
   const MemberRegister({super.key});
@@ -19,6 +20,7 @@ class _MemberRegisterState extends State<MemberRegister> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold (
+        backgroundColor: Color(0xff94B396),
         body: Center (
           // 아이디
           child: Padding(
@@ -31,6 +33,7 @@ class _MemberRegisterState extends State<MemberRegister> {
                   child: SizedBox(
                     width: 300,
                     child: CupertinoTextField (
+                      cursorColor: Color(0xff94B396),
                       controller: userId,
                       placeholder: "아이디를 입력해주세요",
                       textAlign: TextAlign.center,
@@ -43,6 +46,7 @@ class _MemberRegisterState extends State<MemberRegister> {
                   child: SizedBox(
                     width: 300,
                     child: CupertinoTextField (
+                      cursorColor: Color(0xff94B396),
                       controller: password,
                       placeholder: "비밀번호를 입력해주세요",
                       textAlign: TextAlign.center,
@@ -56,6 +60,7 @@ class _MemberRegisterState extends State<MemberRegister> {
                     child: SizedBox(
                       width: 300,
                       child: CupertinoTextField (
+                        cursorColor: Color(0xff94B396),
                         controller: passwordVerifying,
                         placeholder: "비밀번호를 다시 입력해주세요",
                         textAlign: TextAlign.center,
@@ -72,10 +77,16 @@ class _MemberRegisterState extends State<MemberRegister> {
                       SizedBox(
                         width: 95,
                         child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              side: BorderSide(width: 2.0, color: Colors.white)
+                          ),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: Text('뒤로 가기'),
+                          child: Text(
+                            '뒤로 가기',
+                            style: TextStyle(fontSize: 12, color: Colors.white),
+                          ),
                         ),
                       ),
                       Text('   '),
@@ -83,13 +94,36 @@ class _MemberRegisterState extends State<MemberRegister> {
                       SizedBox(
                         width: 195,
                         child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xffD2E7D3)
+                            ),
                           onPressed: () async {
                             // ID 중복확인
                             final idCheck = await confirmIdCheck(userId.text);
                             print("idCheck : $idCheck");
 
+                            // 하나라도 입력되지 않은 경우
+                            if (userId.text.isEmpty || password.text.isEmpty || passwordVerifying.text.isEmpty) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("알림"),
+                                    content: Text("빈칸을 모두 채워주세요."),
+                                    actions: [
+                                      TextButton(
+                                        child: Text("닫기", style: TextStyle(color: Color(0xff94B396))),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
                             // 아이디 중복 => 1, 아니면 => 0
-                            if (idCheck != '0') {
+                            else if (idCheck != '0') {
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -98,7 +132,7 @@ class _MemberRegisterState extends State<MemberRegister> {
                                       content: Text('입력한 아이디가 이미 존재합니다'),
                                       actions: [
                                         TextButton(
-                                          child: Text('닫기'),
+                                          child: Text("닫기", style: TextStyle(color: Color(0xff94B396))),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
@@ -118,7 +152,7 @@ class _MemberRegisterState extends State<MemberRegister> {
                                       content: Text("입력한 비밀번호가 같지 않습니다"),
                                       actions: [
                                         TextButton(
-                                          child: Text("닫기"),
+                                          child: Text("닫기", style: TextStyle(color: Color(0xff94B396))),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
@@ -139,9 +173,12 @@ class _MemberRegisterState extends State<MemberRegister> {
                                     content: Text("계정이 생성되었습니다"),
                                     actions: [
                                       TextButton(
-                                        child: Text("닫기"),
+                                        child: Text("닫기", style: TextStyle(color: Color(0xff94B396))),
                                         onPressed: () {
-                                          Navigator.of(context).pop();
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => LoginMain())
+                                          );
                                         },
                                       ),
                                     ],
@@ -150,8 +187,13 @@ class _MemberRegisterState extends State<MemberRegister> {
                               );
                             }
                           },
-                          child: Text("계정 생성"),
+                          child: Text(
+                              "계정 생성",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                         )
+                      )
                       )
                     ],
                   )
