@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'w_face_painter.dart';
+import 'w_check_drowsiness.dart';
 
 class FaceDetection extends StatefulWidget {
   const FaceDetection({Key? key}) : super(key: key);
@@ -21,6 +22,10 @@ class FaceDetectionState extends State<FaceDetection> {
   bool isRightEyeOpen = false;
   List<Rect> _leftEyeRects = [];
   List<Rect> _rightEyeRects = [];
+
+  // 졸음 체크
+  int _closedEyeDuration = 0; // 눈을 감은 시간 (초 단위)
+  final int _drowsinessThreshold = 10; // 졸음 체크 임계값 (10초)
 
   @override
   void initState() {
@@ -61,28 +66,28 @@ class FaceDetectionState extends State<FaceDetection> {
           child: _customPaint,
         ),
         Positioned(
-          bottom: 20,
-          left: 20,
-          child: Column(
-              children: [
-                Text(
-                '감지된 얼굴 수: $_faceCount',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,)
-                ),
-                // 카메라가 거울모드이므로 서로 인자를 바꾸어줌
-                Text(
-                'Left Eye: ${isRightEyeOpen ? 'Open' : 'Closed'}',
-                  style: TextStyle(fontSize: 10, color: Colors.red),
-                ),
-                Text(
-                  'Right Eye: ${isLeftEyeOpen ? 'Open' : 'Closed'}',
-                  style: TextStyle(fontSize: 10, color: Colors.red),
-                ),
-              ]
-          )
+            bottom: 20,
+            left: 20,
+            child: Column(
+                children: [
+                  Text(
+                      '감지된 얼굴 수: $_faceCount',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,)
+                  ),
+                  // 카메라가 거울모드이므로 서로 인자를 바꾸어줌
+                  Text(
+                    'Left Eye: ${isRightEyeOpen ? 'Open' : 'Closed'}',
+                    style: TextStyle(fontSize: 10, color: Colors.red),
+                  ),
+                  Text(
+                    'Right Eye: ${isLeftEyeOpen ? 'Open' : 'Closed'}',
+                    style: TextStyle(fontSize: 10, color: Colors.red),
+                  ),
+                ]
+            )
         ),
       ],
     );
@@ -110,7 +115,7 @@ class FaceDetectionState extends State<FaceDetection> {
     if (inputImage.metadata?.size != null &&
         inputImage.metadata?.rotation != null) {
 
-      //eye detection
+      // eye detection
       List<Rect> leftEyeRects = [];
       List<Rect> rightEyeRects = [];
 
@@ -140,6 +145,12 @@ class FaceDetectionState extends State<FaceDetection> {
               width: 20.0, // 변환 적용
               height: 20.0, // 변환 적용
             ));
+
+            // 졸음 체크
+            if (_closedEyeDuration >= _drowsinessThreshold) {
+              print('졸음 상태입니다! 눈을 10초 이상 감고 있습니다.');
+              // 졸음 상태일 때의 처리 로직 추가
+            }
           }
         }
       }
@@ -169,6 +180,7 @@ class FaceDetectionState extends State<FaceDetection> {
       _faceCount = 0;
       _leftEyeRects = [];
       _rightEyeRects = [];
+      _closedEyeDuration = 0; // 얼굴이 감지되지 않으면 시간 초기화
       print("메타데이터가 없음. _faceCount를 0으로 설정");
     }
     if (mounted) {
