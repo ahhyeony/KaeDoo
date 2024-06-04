@@ -94,3 +94,7 @@ w_face_detector.dart, dto_cameraimagedetection.dart 수정
 졸음 감지 구현
 10프레임마다 캡쳐 -> 1초마다 캡쳐로 변경
 이미지 잘 전달 받아 감지 얼굴 수, 눈 개폐 여부 확인 완료
+
+### 240604 16:40
+- dto_ctimestorage, w_ctimer, w_ctimerecord 추가
+- f_camera 연동

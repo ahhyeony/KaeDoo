@@ -1,8 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:kaedoo/common/widget/w_timer.dart';
-import 'package:kaedoo/common/data/Data Transfer Object/dto_timestorage.dart';
-import 'package:kaedoo/common/widget/w_timerecord.dart';
+import 'package:kaedoo/common/widget/w_ctimer.dart';
+import 'package:kaedoo/common/data/Data Transfer Object/dto_ctimestorage.dart';
+import 'package:kaedoo/common/widget/w_ctimerecord.dart';
 import 'package:kaedoo/common/data/Data Transfer Object/dto_cameraimagedetection.dart';
 import 'package:kaedoo/common/widget/w_face_detector.dart';
 
@@ -14,7 +14,7 @@ class CameraFragment extends StatefulWidget {
 }
 
 class _CameraFragmentState extends State<CameraFragment> {
-  final TimeStorage timeStorage = TimeStorage(); // 싱글톤 인스턴스를 사용합니다.
+  final CTimeStorage timeStorage = CTimeStorage(); // 싱글톤 인스턴스를 사용합니다.
   CameraImageDetection? _cameraImageDetection;
   CameraController? _cameraController;
   final GlobalKey<FaceDetectionState> faceDetectionKey = GlobalKey<FaceDetectionState>();
@@ -110,7 +110,7 @@ class _CameraFragmentState extends State<CameraFragment> {
                 children: [
                   Container(
                     margin: const EdgeInsets.only(bottom: 20.0),
-                    child: TimerWidget(
+                    child: CTimerWidget(
                       onRecord: _updateRecords,
                     ),
                   ),
@@ -129,7 +129,7 @@ class _CameraFragmentState extends State<CameraFragment> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: TimeRecordWidget(timeStorage: timeStorage),
+                        child: CTimeRecordWidget(timeStorage: timeStorage),
                       ),
                     ),
                   ),
