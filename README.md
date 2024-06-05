@@ -99,3 +99,10 @@ A new Flutter project.
     졸음이 아닌 경우 졸음 판단에 소요된 시간 또한 공부 시간으로 인정
 - 타이머가 켜져있고 사람 얼굴이 감지되고 있는 상황에만 졸음 감지 기능이 작동하도록 수정함
 - 졸음 시간 차감시 레코드에 바로 반영됨 (42초 중 30초 졸았으면 12초로 레코드)
+
+### 240606 24:20
+- w_timedata = 일간통계위젯
+- 기존 : w_timedata.dart에서 dto_timestorage.dart에서 가져온 값 저장하는 로직
+- 수정 : dto_ctimestorage.dart에서 가져온 값도 저장하는 로직으로 수정
+- 결론 : timestorage, ctimestorage 클래스를 f_calendar.dart에서 구현해 w_timedata로 값 불러오고 더해서 출력
+- 사실 잘 모름, 대충 굴러감
