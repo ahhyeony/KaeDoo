@@ -106,3 +106,11 @@ A new Flutter project.
 - 수정 : dto_ctimestorage.dart에서 가져온 값도 저장하는 로직으로 수정
 - 결론 : timestorage, ctimestorage 클래스를 f_calendar.dart에서 구현해 w_timedata로 값 불러오고 더해서 출력
 - 사실 잘 모름, 대충 굴러감
+
+### 240606 05:51
+- dto_dtimestorage.dart 수정
+- sleepDuration 변수에 졸음 시간을 저장했고 타이머가 리셋되더라도 sleepDuration 변수가 초기화 되지 않아 졸음 시간이 누적으로 차감되는 문제 발생
+- 현재 타이머의 졸음 시간과 누적 졸음 시간 두 개 다 필요한 상황
+- 따라서 기존 변수 sleepDuration를 타이머가 초기화될 때 초기화될 수 있도록 구현하고, 새 변수 totalSleeping을 만들어 누적 시간을 저장할 수 있도록 함
+- 즉, 통계 페이지에는 (공부 효율) = (C+T)/(C+T+totalSleeping) 하면 될듯!
+- dto_ctimestorage.dart의 totalSleeping을 가져와서 계산해주시면 될 것 같아용 :D

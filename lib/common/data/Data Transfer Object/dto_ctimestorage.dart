@@ -6,6 +6,7 @@ class CTimeStorage {
   Duration sleepDuration = Duration.zero; // 졸음 감지 시간을 기록할 변수 추가
   Timer? _timer;
   List<TimeRecord> timeLogs = [];
+  Duration totalSleeping = Duration.zero; // 총 졸음 시간 기록
 
   // 싱글톤 인스턴스
   static final CTimeStorage _instance = CTimeStorage._internal();
@@ -35,6 +36,7 @@ class CTimeStorage {
   void resetTimer() {
     stopTimer();
     duration = Duration.zero;
+    sleepDuration = Duration.zero;
   }
 
   void recordTime(String name) {
@@ -60,6 +62,8 @@ class CTimeStorage {
 
   void addSleepDuration(Duration sleepTime) {
     sleepDuration += sleepTime;
+    totalSleeping += sleepTime;
+    print("sleepDuration: ${sleepDuration}"+" | "+"totalSleeping: ${totalSleeping}");
   }
 
   bool isTimerRunning() {
