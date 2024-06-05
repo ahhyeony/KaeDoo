@@ -7,10 +7,15 @@ Future<MySQLConnection> dbConnector() async {
   // mySQL 설정 -- 연결 중
   final conn = await MySQLConnection.createConnection(
       //host: "localhost" , //android 10.0.2.2
-      host: '10.30.76.130',   //10.30.132.37
+      host: '10.30.72.97', // 어차피 무조건 어딜가나 바꿔야 하는 부분
       port: 3306,
-      userName: 'kaedoo',      //ah
-      password: '12341234',      //0227
+
+      // 필요시 주석처리 해제해서 사용하기
+      userName: 'ah',
+      password: '0227',
+      //userName: 'kaedoo',
+      //password: '12341234',
+
       databaseName: 'kaedoo'
   );
 

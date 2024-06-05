@@ -3,6 +3,7 @@ import 'package:kaedoo/common/data/Data Transfer Object/dto_timerecord.dart'; //
 
 class CTimeStorage {
   Duration duration = Duration.zero;
+  Duration sleepDuration = Duration.zero; // 졸음 감지 시간을 기록할 변수 추가
   Timer? _timer;
   List<TimeRecord> timeLogs = [];
 
@@ -39,7 +40,7 @@ class CTimeStorage {
   void recordTime(String name) {
     if (name.isNotEmpty && duration.inSeconds > 0) {
       String date = DateTime.now().toIso8601String().split('T')[0];
-      String timeString = _formatDuration(duration);
+      String timeString = _formatDuration(duration - sleepDuration); // 졸음 시간을 제외한 시간
       timeLogs.add(TimeRecord(name: name, time: timeString, date: date));
       print("Record added: ${timeLogs.last}"); // 로그 추가
     }
@@ -55,6 +56,14 @@ class CTimeStorage {
 
   void deleteRecord(int index) {
     timeLogs.removeAt(index);
+  }
+
+  void addSleepDuration(Duration sleepTime) {
+    sleepDuration += sleepTime;
+  }
+
+  bool isTimerRunning() {
+    return _timer != null;
   }
 
   String _formatDuration(Duration d) {
