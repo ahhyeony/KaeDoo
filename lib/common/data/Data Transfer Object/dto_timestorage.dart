@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:kaedoo/common/data/Data Transfer Object/dto_timerecord.dart'; // TimeRecord 클래스를 올바르게 import
 
+
 class TimeStorage {
   Duration duration = Duration.zero;
   Timer? _timer;

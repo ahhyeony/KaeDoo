@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kaedoo/common/data/Data Transfer Object/dto_timestorage.dart';
+import 'package:kaedoo/common/data/Data Transfer Object/dto_ctimestorage.dart';
 import 'package:kaedoo/common/widget/w_timedata.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:kaedoo/common/widget/w_wtimedata.dart';
@@ -13,6 +14,7 @@ class CalendarFragment extends StatefulWidget {
 
 class _CalendarFragmentState extends State<CalendarFragment> {
   final TimeStorage timeStorage = TimeStorage();
+  final CTimeStorage ctimeStorage = CTimeStorage();
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
 
@@ -98,6 +100,7 @@ class _CalendarFragmentState extends State<CalendarFragment> {
                 ),
                 child: TimeDataWidget(
                   timeStorage: timeStorage,
+                  cTimeStorage: ctimeStorage,
                   selectedDate: selectedDate,
                 ),
               ),

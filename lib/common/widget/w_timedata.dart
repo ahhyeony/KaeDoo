@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:kaedoo/common/data/Data Transfer Object/dto_timestorage.dart';
 import 'package:kaedoo/common/data/Data Transfer Object/dto_timerecord.dart';
+import 'package:kaedoo/common/data/Data Transfer Object/dto_ctimestorage.dart'; // 추가된 import
 import 'package:pie_chart/pie_chart.dart';
 
 class TimeDataWidget extends StatelessWidget {
   final TimeStorage timeStorage;
+  final CTimeStorage cTimeStorage; // 추가된 ctimestorage 객체
   final String selectedDate;
 
-  TimeDataWidget({Key? key, required this.timeStorage, required this.selectedDate}) : super(key: key);
+  TimeDataWidget({Key? key, required this.timeStorage, required this.cTimeStorage, required this.selectedDate}) : super(key: key); // 수정된 생성자
 
-  Map<String, double> _createDataMap(List<TimeRecord> timeLogs) {
+  Map<String, double> _createDataMap(List<TimeRecord> timeLogs, List<TimeRecord> cTimeLogs) { // 수정된 _createDataMap 함수
     Map<String, double> dataMap = {};
 
     for (var record in timeLogs) {
+      if (record.date == selectedDate) {
+        if (dataMap.containsKey(record.name)) {
+          dataMap[record.name] = dataMap[record.name]! + _parseTimeToMinutes(record.time);
+        } else {
+          dataMap[record.name] = _parseTimeToMinutes(record.time);
+        }
+      }
+    }
+
+    for (var record in cTimeLogs) { // 추가된 코드
       if (record.date == selectedDate) {
         if (dataMap.containsKey(record.name)) {
           dataMap[record.name] = dataMap[record.name]! + _parseTimeToMinutes(record.time);
@@ -36,7 +48,8 @@ class TimeDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<TimeRecord> timeLogs = timeStorage.getTimeLogs();
-    Map<String, double> dataMap = _createDataMap(timeLogs);
+    List<TimeRecord> cTimeLogs = cTimeStorage.getTimeLogs(); // 추가된 코드
+    Map<String, double> dataMap = _createDataMap(timeLogs, cTimeLogs); // 수정된 코드
 
     double totalStudyTime = dataMap.values.fold(0, (sum, item) => sum + item);
 
