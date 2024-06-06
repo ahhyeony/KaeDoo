@@ -1,30 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:kaedoo/common/data/Data Transfer Object/dto_timestorage.dart';
 import 'package:kaedoo/common/data/Data Transfer Object/dto_timerecord.dart';
+import 'package:kaedoo/common/data/Data Transfer Object/dto_ctimestorage.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 class WeeklyDataWidget extends StatelessWidget {
   final TimeStorage timeStorage;
+  final CTimeStorage cTimeStorage;
 
-  WeeklyDataWidget({Key? key, required this.timeStorage}) : super(key: key);
+  WeeklyDataWidget({Key? key, required this.timeStorage, required this.cTimeStorage}) : super(key: key);
 
-  Map<String, double> _createWeeklyDataMap(List<TimeRecord> timeLogs) {
+  Map<String, double> _createWeeklyDataMap(List<TimeRecord> timeLogs, List<TimeRecord> cTimeLogs, Duration totalSleeping) {
     Map<String, double> dataMap = {};
 
     DateTime now = DateTime.now();
     DateTime startOfWeek = now.subtract(Duration(days: now.weekday - 1));
     DateTime endOfWeek = startOfWeek.add(Duration(days: 6));
 
+    double totalTime = 0.0;
+    double cTotalTime = 0.0;
+
     for (var record in timeLogs) {
       DateTime recordDate = DateTime.parse(record.date);
       if (recordDate.isAfter(startOfWeek) && recordDate.isBefore(endOfWeek)) {
-        if (dataMap.containsKey(record.name)) {
-          dataMap[record.name] = dataMap[record.name]! + _parseTimeToMinutes(record.time);
-        } else {
-          dataMap[record.name] = _parseTimeToMinutes(record.time);
-        }
+        totalTime += _parseTimeToMinutes(record.time);
       }
     }
+
+    for (var record in cTimeLogs) {
+      DateTime recordDate = DateTime.parse(record.date);
+      if (recordDate.isAfter(startOfWeek) && recordDate.isBefore(endOfWeek)) {
+        cTotalTime += _parseTimeToMinutes(record.time);
+      }
+    }
+
+    double totalStudyTime = totalTime + cTotalTime;
+    double totalSleepingMinutes = totalSleeping.inMinutes.toDouble();
+
+    dataMap['Study Time'] = totalStudyTime;
+    dataMap['Total Sleeping'] = totalSleepingMinutes;
 
     return dataMap;
   }
@@ -40,9 +54,14 @@ class WeeklyDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<TimeRecord> timeLogs = timeStorage.getTimeLogs();
-    Map<String, double> dataMap = _createWeeklyDataMap(timeLogs);
+    List<TimeRecord> cTimeLogs = cTimeStorage.getTimeLogs();
+    Map<String, double> dataMap = _createWeeklyDataMap(timeLogs, cTimeLogs, cTimeStorage.totalSleeping);
 
-    double totalWeeklyTime = dataMap.values.fold(0, (sum, item) => sum + item);
+    double totalStudyTime = dataMap['Study Time']!;
+    double totalSleepingTime = dataMap['Total Sleeping']!;
+    double totalTime = totalStudyTime + totalSleepingTime;
+    double studyTimePercentage = (totalStudyTime / totalTime) * 100;
+    double sleepingTimePercentage = (totalSleepingTime / totalTime) * 100;
 
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -61,25 +80,24 @@ class WeeklyDataWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '주간 통계',
+            '공부 효율',
             style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 5.0),
           SizedBox(
-            height: 220.0, // 그래프를 포함한 전체 높이를 더 크게 설정
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10.0, bottom: 20.0), // 그래프 위아래에 패딩 추가
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
+            height: 280.0,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                     child: dataMap.isEmpty
                         ? Opacity(
                       opacity: 0.3,
                       child: PieChart(
                         dataMap: {"No Data": 1},
                         chartType: ChartType.ring,
-                        chartRadius: MediaQuery.of(context).size.width / 3,
+                        chartRadius: MediaQuery.of(context).size.width / 2.5,
                         ringStrokeWidth: 32,
                         centerText: "No Data",
                         legendOptions: LegendOptions(
@@ -92,9 +110,12 @@ class WeeklyDataWidget extends StatelessWidget {
                       ),
                     )
                         : PieChart(
-                      dataMap: dataMap,
+                      dataMap: {
+                        "Study Time": studyTimePercentage,
+                        "Sleeping Time": sleepingTimePercentage
+                      },
                       chartType: ChartType.ring,
-                      chartRadius: MediaQuery.of(context).size.width / 3,
+                      chartRadius: MediaQuery.of(context).size.width / 2.5,
                       ringStrokeWidth: 32,
                       centerText: "Weekly Time",
                       legendOptions: LegendOptions(
@@ -108,31 +129,24 @@ class WeeklyDataWidget extends StatelessWidget {
                       ),
                       chartValuesOptions: ChartValuesOptions(
                         showChartValues: true,
-                        showChartValuesInPercentage: false,
+                        showChartValuesInPercentage: true,
                         showChartValuesOutside: false,
                         decimalPlaces: 1,
                       ),
                     ),
                   ),
-                  SizedBox(width: 20),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '총 주간 공부시간',
-                        style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        '${totalWeeklyTime.toStringAsFixed(2)} 분',
-                        style: TextStyle(fontSize: 16.0, color: Colors.black54),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 50),
-                ],
-              ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  '일간 공부효율',
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  '${totalStudyTime.toStringAsFixed(2)} 분',
+                  style: TextStyle(fontSize: 16.0, color: Colors.black54),
+                ),
+              ],
             ),
           ),
         ],

@@ -117,7 +117,9 @@ class _CalendarFragmentState extends State<CalendarFragment> {
                     ),
                   ],
                 ),
-                child: WeeklyDataWidget(timeStorage: timeStorage),
+                child: WeeklyDataWidget(
+                    timeStorage: timeStorage,
+                    cTimeStorage: ctimeStorage,),
               ),
             ],
           ),
