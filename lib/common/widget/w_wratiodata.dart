@@ -55,10 +55,10 @@ class RatioDataWidget extends StatelessWidget {
       return 'assets/image/kaekae/kae54.jpeg';
     } else if (efficiency >= 20) {
       return 'assets/image/kaekae/kae32.jpeg';
-    } else if (efficiency == 0) {
-      return 'assets/image/kaekae/kae0.jpeg'; // 0퍼센트일 때 이미지 경로
+    } else if (efficiency > 0) {
+      return 'assets/image/kaekae/kae10.jpeg'; // 0퍼센트일 때 이미지 경로
     } else {
-      return 'assets/image/kaekae/kae10.jpeg';
+      return 'assets/image/kaekae/kae0.jpeg';
     }
   }
 
@@ -89,7 +89,7 @@ class RatioDataWidget extends StatelessWidget {
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             '공부 효율',
@@ -100,23 +100,16 @@ class RatioDataWidget extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (imagePath.isNotEmpty)
-                  Image.asset(
-                    imagePath,
-                    height: 200,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        height: 200,
-                        color: Colors.white,
-                      );
-                    },
-                  )
-                else
-                  Container(
-                    height: 200,
-                    color: Colors.grey,
-                  ),
-                Spacer(),
+                Image.asset(
+                  imagePath,
+                  height: 200,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      height: 200,
+                      color: Colors.white,
+                    );
+                  },
+                ),
                 Text(
                   '일간 공부 효율: ${efficiency.toStringAsFixed(2)}%',
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),

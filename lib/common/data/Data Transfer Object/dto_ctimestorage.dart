@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:kaedoo/common/data/Data Transfer Object/dto_timerecord.dart'; // TimeRecord 클래스를 올바르게 import
+import 'package:kaedoo/common/data/Data Transfer Object/dto_timerecord.dart';
 
 class CTimeStorage {
   Duration duration = Duration.zero;
@@ -45,6 +45,8 @@ class CTimeStorage {
       String timeString = _formatDuration(duration - sleepDuration); // 졸음 시간을 제외한 시간
       timeLogs.add(TimeRecord(name: name, time: timeString, date: date));
       print("Record added: ${timeLogs.last}"); // 로그 추가
+      duration = Duration.zero;
+      sleepDuration = Duration.zero;
     }
   }
 
