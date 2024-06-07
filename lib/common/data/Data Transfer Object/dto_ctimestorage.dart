@@ -63,8 +63,8 @@ class CTimeStorage {
   }
 
   void addSleepDuration(Duration sleepTime) {
-    sleepDuration += sleepTime;
-    totalSleeping += sleepTime;
+    sleepDuration += sleepTime + Duration(seconds: 9);
+    totalSleeping += sleepTime + Duration(seconds: 9);
     print("sleepDuration: ${sleepDuration}"+" | "+"totalSleeping: ${totalSleeping}");
   }
 

@@ -56,9 +56,9 @@ class RatioDataWidget extends StatelessWidget {
     } else if (efficiency >= 20) {
       return 'assets/image/kaekae/kae32.jpeg';
     } else if (efficiency > 0) {
-      return 'assets/image/kaekae/kae10.jpeg'; // 0퍼센트일 때 이미지 경로
+      return 'assets/image/kaekae/kae10.jpeg';
     } else {
-      return 'assets/image/kaekae/kae0.jpeg';
+      return 'assets/image/kaekae/kae0.jpeg'; // 0퍼센트일 때 이미지 경로
     }
   }
 
@@ -69,7 +69,7 @@ class RatioDataWidget extends StatelessWidget {
     Map<String, double> dataMap = _createDataMap(timeLogs, cTimeLogs);
 
     double totalStudyTime = dataMap.values.fold(0, (sum, item) => sum + item);
-    double totalSleepingTime = cTimeStorage.totalSleeping.inMinutes.toDouble();
+    double totalSleepingTime =  cTimeStorage.totalSleeping.inSeconds / 60;
     double efficiency = totalStudyTime > 0 ? (totalStudyTime / (totalStudyTime + totalSleepingTime)) * 100 : 0;
     String imagePath = _getImageForEfficiency(efficiency);
 
@@ -111,8 +111,12 @@ class RatioDataWidget extends StatelessWidget {
                   },
                 ),
                 Text(
-                  '일간 공부 효율: ${efficiency.toStringAsFixed(2)}%',
+                  '일간 공부 효율',
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '${efficiency.toStringAsFixed(2)}%',
+                  style: TextStyle(fontSize: 16.0, color: Colors.black54),
                 ),
               ],
             ),

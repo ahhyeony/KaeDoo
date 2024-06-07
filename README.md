@@ -129,5 +129,10 @@ A new Flutter project.
 - 카메라 시간 효율 받아오는 과정에서 고장남
 - 이미지는 일단 하나만 있음
 
-### 240608 12:12
+### 240608 24:12
 - kaekae 이미지 추가, 가운데 정렬
+
+### 240608
+- dto_ctimestorage.dart, w_wratiodata.dart 수정
+- 졸음 판단 시간 미포함 오류 수정
+- 일간 공부 효율 UI 수정
