@@ -115,7 +115,7 @@ class FaceDetectionState extends State<FaceDetection> {
       List<Rect> leftEyeRects = [];
       List<Rect> rightEyeRects = [];
 
-      bool allEyesClosed = faces.isNotEmpty; // 초기값을 얼굴이 감지된 상태로 설정
+      //bool allEyesClosed = faces.isNotEmpty; // 초기값을 얼굴이 감지된 상태로 설정
 
       for (Face face in faces) {
         if (face.leftEyeOpenProbability != null && face.rightEyeOpenProbability != null) {
@@ -126,9 +126,9 @@ class FaceDetectionState extends State<FaceDetection> {
           bool rightEyeClosed = face.rightEyeOpenProbability! < 0.5;
 
           // 한 사람이라도 눈을 뜨고 있으면 졸음 상태가 아님
-          if (!leftEyeClosed || !rightEyeClosed) {
-            allEyesClosed = false;
-          }
+          // if (!leftEyeClosed || !rightEyeClosed) {
+          //   allEyesClosed = false;
+          // }
 
           setState(() {
             isLeftEyeOpen = !leftEyeClosed;
@@ -156,7 +156,8 @@ class FaceDetectionState extends State<FaceDetection> {
         }
       }
 
-      if (allEyesClosed && CTimeStorage().isTimerRunning()) {
+      //if (allEyesClosed && CTimeStorage().isTimerRunning()) {
+      if (CTimeStorage().isTimerRunning()) {
         if (_drowsinessTimer == null) {
           print("눈이 감겼습니다. 타이머를 시작합니다.");
           _drowsinessTimer = Timer.periodic(Duration(seconds: 1), (timer) {
