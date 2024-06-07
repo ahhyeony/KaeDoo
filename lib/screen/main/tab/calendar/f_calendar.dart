@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kaedoo/common/data/Data Transfer Object/dto_timestorage.dart';
 import 'package:kaedoo/common/data/Data Transfer Object/dto_ctimestorage.dart';
 import 'package:kaedoo/common/widget/w_timedata.dart';
+import 'package:kaedoo/common/widget/w_wratiodata.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:kaedoo/common/widget/w_wtimedata.dart';
+
 
 class CalendarFragment extends StatefulWidget {
   CalendarFragment({Key? key}) : super(key: key);
@@ -50,7 +51,7 @@ class _CalendarFragmentState extends State<CalendarFragment> {
                   ],
                 ),
                 child: SizedBox(
-                  height: 400.0,  // 캘린더의 높이를 조절하여 더 크게 설정
+                  height: 400.0, // 캘린더의 높이를 조절하여 더 크게 설정
                   child: TableCalendar(
                     firstDay: DateTime.utc(2000, 1, 1),
                     lastDay: DateTime.utc(2099, 12, 31),
@@ -117,9 +118,11 @@ class _CalendarFragmentState extends State<CalendarFragment> {
                     ),
                   ],
                 ),
-                child: WeeklyDataWidget(
-                    timeStorage: timeStorage,
-                    cTimeStorage: ctimeStorage,),
+                child: RatioDataWidget(
+                  timeStorage: timeStorage,
+                  cTimeStorage: ctimeStorage,
+                  selectedDate: selectedDate,
+                ),
               ),
             ],
           ),

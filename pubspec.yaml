@@ -127,6 +127,8 @@ flutter:
     - assets/image/
     - assets/image/icon/
     - assets/image/flag/
+    - assets/image/kaekae/
+    - assets/image/kaekae/kae100.jpeg
     - assets/image/darkmode/
     - assets/translations/
     - assets/

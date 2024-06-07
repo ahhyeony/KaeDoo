@@ -122,3 +122,9 @@ A new Flutter project.
 ### 240607 16:17
 - w_face_detector.dart 수정
 - 졸음 감지 기능에서 자리비움(얼굴인식X)에도 시간을 차감하도록 수정
+
+### 240607 19:00
+- w_wratiodata, f_calendar 수정
+- w_wratiodata에서 비율계산해서 바로 출력하도록 구현
+- 카메라 시간 효율 받아오는 과정에서 고장남
+- 이미지는 일단 하나만 있음
