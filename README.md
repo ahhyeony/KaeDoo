@@ -136,3 +136,7 @@ A new Flutter project.
 - dto_ctimestorage.dart, w_wratiodata.dart 수정
 - 졸음 판단 시간 미포함 오류 수정
 - 일간 공부 효율 UI 수정
+
+### 240608 23:20
+- kaekae 이미지 업데이트
+- 영어문구 한글로 변경

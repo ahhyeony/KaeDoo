@@ -17,17 +17,17 @@ class _TimeRecordWidgetState extends State<TimeRecordWidget> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Edit Session Name'),
+          title: Text('과목명 수정'),
           content: TextField(
             controller: _nameController,
-            decoration: InputDecoration(hintText: 'Enter new session name'),
+            decoration: InputDecoration(hintText: '새로운 과목명을 입력하세요'),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: Text('취소'),
             ),
             TextButton(
               onPressed: () {
@@ -36,7 +36,7 @@ class _TimeRecordWidgetState extends State<TimeRecordWidget> {
                 });
                 Navigator.of(context).pop();
               },
-              child: Text('Save'),
+              child: Text('저장'),
             ),
           ],
         );
@@ -49,14 +49,14 @@ class _TimeRecordWidgetState extends State<TimeRecordWidget> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Delete Record'),
+          title: Text('저장 기록 삭제'),
           content: Text('삭제하면 복구할 수 없습니다'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: Text('취소'),
             ),
             TextButton(
               onPressed: () {
@@ -65,7 +65,7 @@ class _TimeRecordWidgetState extends State<TimeRecordWidget> {
                 });
                 Navigator.of(context).pop();
               },
-              child: Text('Delete'),
+              child: Text('삭제'),
             ),
           ],
         );

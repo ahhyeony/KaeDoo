@@ -58,17 +58,17 @@ class _TimerWidgetState extends State<CTimerWidget> {
       builder: (BuildContext context) {
         final _nameController = TextEditingController();
         return AlertDialog(
-          title: Text('Record Session'),
+          title: Text('시간 기록'),
           content: TextField(
             controller: _nameController,
-            decoration: InputDecoration(hintText: 'Enter session name'),
+            decoration: InputDecoration(hintText: '과목명을 입력하세요'),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: Text('취소'),
             ),
             TextButton(
               onPressed: () {
@@ -79,7 +79,7 @@ class _TimerWidgetState extends State<CTimerWidget> {
                 Navigator.of(context).pop();
                 _restartTimer(); // 자동으로 타이머 초기화
               },
-              child: Text('Record'),
+              child: Text('기록'),
             ),
           ],
         );
